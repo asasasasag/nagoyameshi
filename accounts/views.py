@@ -4,6 +4,7 @@ from django.views import generic, View
 
 from . import forms
 from . import models
+from .mixins import onlyManagementUserMixin
 
 # Create your views here.
 class UserDetailView(generic.DetailView):
