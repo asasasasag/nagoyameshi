@@ -255,3 +255,117 @@ a {
 .card-error {
     display: none;
 }
+
+/* 管理画面用 */
+
+.manage_main {
+    width: 70%;
+    margin:30px auto;
+    
+  }
+  
+  .manage_main div {
+    display: flex;
+    justify-content: space-between; 
+    box-shadow: 0px 18px 20px -8px rgba(0, 0, 0, 0.5);
+    background-color: rgb(249, 249, 249);
+  }
+  
+  .manage_main a {
+    display: inline-block;
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    color: #191919;
+    padding: 20px 20px;
+  }
+  
+  .manage_main a:hover {
+    opacity: 0.6;
+  }
+  
+  .manage_main .manage_selected {
+    color: #d11515;
+    background-color: #F29F05;   
+  }
+  
+  .manage_main h1 {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    font-size: 25px;
+  }
+  
+  
+  .manage_list {
+    width: 80%;
+    margin: 10px auto;
+   }
+   
+   .manage_list tbody tr:hover {
+     background-color: darksalmon;
+   }
+   
+   .manage_list thead {
+     border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  
+   }
+   
+   .manage_list tbody tr {
+     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+     height: 3em;
+   }
+  
+   /* ユーザー */
+   .user_update label {
+    min-width: 15%;
+   }
+  
+   .user_update input[name="address"] {
+    width: 30%;
+   }
+  
+   /* カテゴリ- */
+  .category_update label {
+    min-width: 15%;
+  }
+  
+  .category_create label{
+    min-width: 15%;
+  }
+  
+  /* 店舗 */
+  .restaurant_create label {
+    min-width: 15%;
+  }
+  
+  .restaurant_update label{
+    min-width: 15%;
+  
+  }
+  
+  .new {
+    display: block;
+    padding:0px 0px 20px  500px;  
+     
+  }
+  
+  .sales {
+    width: 50%;
+    margin: 10px auto;
+  }
+  
+  .sales thead {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  
+  }
+    
+  .sales tbody tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    height: 3em;
+  }
+    
+     
+  
+  

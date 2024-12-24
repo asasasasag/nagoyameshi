@@ -6,6 +6,12 @@ from . import forms
 from . import models
 from .mixins import onlyManagementUserMixin
 
+from restaurant.models import Category
+from restaurant.models import Restaurant
+from restaurant.models import Sales
+
+
+
 # Create your views here.
 class UserDetailView(generic.DetailView):
     model = models.CustomUser
@@ -54,4 +60,74 @@ class SubscribeCancelView(generic.TemplateView):
 
         models.CustomUser.objects.filter(id=user_id).update(is_subscribed=False)
         return redirect(reverse_lazy('top_view'))
+
+# ユーザー管理
+class ManagementUserListView(onlyManagementUserMixin, generic.ListView):
+    template_name = "management/user_list.html"
+    model = models.CustomUser
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "user"
+        
+        return context
     
+#　カテゴリー
+class ManagementCategoryListView(onlyManagementUserMixin, generic.ListView):
+    template_name = "management/category_list.html"
+    model = Category
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "category"
+        
+        return context
+
+# レストラン
+class ManagementRestaurantListView(onlyManagementUserMixin, generic.ListView):
+    template_name = "management/restaurant_manage_list.html"
+    model = Restaurant
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "restaurant"
+        
+        return context
+    
+class ManagementRestaurantUpdateView(onlyManagementUserMixin, generic.UpdateView):
+    template_name = 'management/restaurant_update.html'
+    form_class = forms.RestaurantUpdateForm
+    model = Restaurant
+    success_url = reverse_lazy('restaurant_manage_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["del_restaurant_id"] = self.request.path.split('/')[-2]
+        context["selected"] = "restaurant"
+
+        return context
+
+
+# 売上
+class ManagementSalesListView(onlyManagementUserMixin, generic.ListView):
+    template_name = 'management/sales.html'
+    model = Sales
+    ordering = ["-year","-month"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["del_restaurant_id"] = self.request.path.split('/')[-2]
+        context["selected"] = "restaurant"
+
+        return context
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "sales"
+        
+        return context
+
+
+

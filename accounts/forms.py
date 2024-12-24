@@ -1,6 +1,7 @@
 from allauth.account.forms import SignupForm, LoginForm
 from django import forms
 from .models import CustomUser
+from restaurant.models import Category, Restaurant
 
 class MySignupForm(SignupForm):
     user_name = forms.CharField(max_length=255, label='氏名')
@@ -62,3 +63,33 @@ class UserUpdateForm(forms.ModelForm):
         self.fields['birthday'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': '19950401'})
         self.fields['job'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'エンジニア'})
         self.fields['email'].widget = forms.TextInput(attrs={'type': 'email', 'class': 'form-control', 'placeholder': 'taro.samurai@example.com'})
+
+
+class RestaurantUpdateForm(forms.ModelForm):
+
+    name = forms.CharField(label='店舗名', max_length=64)
+    description = forms.CharField(label='説明', max_length=128)
+    price = forms.CharField(label='価格帯', max_length=32)
+    zip_code = forms.CharField(label='郵便番号', max_length=32)
+    address = forms.CharField(label='住所', max_length=128)
+    business_time = forms.CharField(label='営業時間', max_length=64)
+    close_day_of_week = forms.CharField(label='定休日', max_length=32)
+    seats_number = forms.CharField(label='座席数', max_length=32)
+    category = forms.ModelChoiceField(label="カテゴリ", queryset=Category.objects.all())
+
+    class Meta:
+      model = Restaurant
+      fields = ('name', 'description', 'price', 'zip_code', 'address', 'business_time', 'close_day_of_week', 'seats_number', 'category',)
+
+    def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      self.label_suffix = ""
+      self.fields['name'].widget = forms.TextInput(attrs={'placeholder': '店舗名'})
+      self.fields['description'].widget = forms.Textarea(attrs={'placeholder': '昔ながらの味をご堪能具ださい。'})
+      self.fields['price'].widget = forms.TextInput(attrs={'placeholder': '2,000円〜3,000円'})
+      self.fields['zip_code'].widget = forms.TextInput(attrs={'placeholder': '1010022'})
+      self.fields['address'].widget = forms.TextInput(attrs={'placeholder': '東京都千代田区神田棟堀町300番地'})
+      self.fields['business_time'].widget = forms.TextInput(attrs={'placeholder': '11:00〜23:00'})
+      self.fields['close_day_of_week'].widget = forms.TextInput(attrs={'placeholder': '水'})
+      self.fields['seats_number'].widget = forms.TextInput(attrs={'placeholder': '22席'})
+

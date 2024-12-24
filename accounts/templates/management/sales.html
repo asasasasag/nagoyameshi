@@ -1,0 +1,27 @@
+{% extends "management/manage_base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}売上{% endblock %}
+{% block sub_content %}
+
+     <table class="sales">
+         <thead>
+             <tr>
+                 <th>年</th>
+                 <th>月</th>
+                 <th>売上額</th>
+             </tr>
+         </thead>
+         {% for sales in object_list %}
+         <tr>
+             <td>{{ sales.year }} 年</td>
+             <td>{{ sales.month }} 月</td>
+             <td>{{ sales.amount | intcomma }} 円</td>
+             </tr>
+         {% endfor %}
+     </table>
+
+ <br>
+
+{% endblock %}
+

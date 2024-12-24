@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # my apps
     'restaurant',
     'accounts',
@@ -171,3 +172,5 @@ ACCOUNT_FORMS = {
     'login': 'accounts.forms.MyLoginForm',
     'signup': 'accounts.forms.MySignupForm',
 }
+
+NUMBER_GROUPING = 3

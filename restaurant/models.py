@@ -129,3 +129,16 @@ class Favorite(models.Model):
 
     def __str__(self):
         return self.restaurant.name
+    
+class Sales(models.Model):
+    """売上モデル"""
+    year = models.IntegerField('年', default=0)
+    month = models.IntegerField('月', default=0)
+    amount = models.IntegerField('売上金額', default=0)
+
+    class Meta:
+        verbose_name_plural = 'Sales'
+
+    def __str__(self):
+        return f"{self.year}/{self.month}/{self.amount}"
+

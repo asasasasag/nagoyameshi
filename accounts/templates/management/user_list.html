@@ -1,0 +1,26 @@
+{% extends "management/manage_base.html" %}
+{% load static %}
+{% block title %}NAGOYAMESHI{% endblock %}
+{% block sub_content %}
+
+  <table class="manage_list">
+    <thead>
+      <th>ユーザーID</th>
+      <th>メールアドレス</th>
+      <th>氏名</th>
+    </thead>
+    <tbody> 
+      {% for user in object_list %}
+       {# <tr onclick="location.href='{% url 'user_list_update' pk=user.pk %}'"> #}
+        <tr>
+            <td >{{ user.pk }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.user_name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}
+

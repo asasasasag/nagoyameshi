@@ -1,0 +1,27 @@
+{% extends "management/manage_base.html" %}
+{% load static %}
+{% block title %}店舗一覧{% endblock %}
+{% block sub_content %}
+
+  {# <a class="new" href="{% url 'restaurant_create' %}">店舗新規登録</a> #}
+  <table class="manage_list">
+    <thead>
+      <th>店舗ID</th>
+      <th>店名</th>
+      <th>住所</th> 
+    </thead>
+    <tbody>
+      {% for restaurant in object_list %}
+       {# <tr onclick="location.href='{% url 'restaurant_update' pk=restaurant.pk %}'"> #}
+        <tr>    
+            <td>{{ restaurant.pk }}</td>
+            <td>{{ restaurant.name }}</td>
+            <td>{{ restaurant.address }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}
+
