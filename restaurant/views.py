@@ -236,6 +236,7 @@ class RestaurantListView(generic.ListView):
             'price_session': price_session,
             'select_sort_session': select_sort_session,
             'restaurant_list': zip(restaurant_list, average_rate_list, average_rate_star_list, rate_num_list),
+            'search_num': len(restaurant_list),
         })
         return context
     

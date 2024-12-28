@@ -10,8 +10,9 @@ urlpatterns = [
     
     path("management/user-list",views.ManagementUserListView.as_view(), name="user_list"),
     path("management/restaurant-manage-list",views.ManagementRestaurantListView.as_view(), name="restaurant_manage_list"),
+    path("management/restaurant-create/",views.ManagementRestaurantCreateView.as_view(), name="restaurant_create"),
     path("management/restaurant-update/<int:pk>/",views.ManagementRestaurantUpdateView.as_view(), name="restaurant_update"),
-
+    
     path("management/category-list",views.ManagementCategoryListView.as_view(), name="category_list"),
     path("management/sales/",views.ManagementSalesListView.as_view(), name="sales")
 

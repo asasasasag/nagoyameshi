@@ -94,6 +94,18 @@ class ManagementRestaurantListView(onlyManagementUserMixin, generic.ListView):
         
         return context
     
+class ManagementRestaurantCreateView(onlyManagementUserMixin, generic.CreateView):
+    model = Restaurant
+    template_name = 'management/restaurant_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy('restaurant_manage_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "restaurant"
+        
+        return context
+
 class ManagementRestaurantUpdateView(onlyManagementUserMixin, generic.UpdateView):
     template_name = 'management/restaurant_update.html'
     form_class = forms.RestaurantUpdateForm

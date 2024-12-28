@@ -45,16 +45,17 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'user_detail' user.id %}">会員情報</a>
-                                {# href="{% url 'user_detail' user.id %}">会員情報</a>#}
                                 <a class="dropdown-item"  href="{% url 'reservation_list' %}">予約一覧</a>
-                                {# href="{% url 'reservation_list' %}">予約一覧</a>#}
                                 <a class="dropdown-item"  href="{% url 'favorite_list' %}">お気に入り一覧</a>
-                                {# href="{% url 'favorite_list' %}">お気に入り一覧</a>#}
                                 <a class="dropdown-item" {#TODO:4#} href="#">お支払い方法</a>
-                                {# href="{% url 'subscribe_payment' %}">お支払い方法</a>#}
                                 <a class="dropdown-item" href="{% url 'subscribe_cancel' %}">有料プラン解約</a>
-                                {# href="{% url 'subscribe_cancel' %}">有料プラン解約</a>#}
                                 <div class="dropdown-divider"></div>
+
+                                {% if user.is_staff %}
+                                <a class="dropdown-item" href="{% url 'restaurant_manage_list' %}">サイト管理</a>
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+
                                 <a class="dropdown-item" href="{% url 'account_logout' %}">ログアウト</a>
                             </div>
                         </li>
@@ -71,6 +72,12 @@
                                     <a class="dropdown-item" href="{% url 'subscribe_register' %}">有料プラン登録</a>
                                     {# href="{% url 'subscribe_register' %}">有料プラン登録</a>#}
                                     <div class="dropdown-divider"></div>
+
+                                    {% if user.is_staff %}
+                                    <a class="dropdown-item" href="{% url 'restaurant_manage_list' %}">サイト管理</a>
+                                    <div class="dropdown-divider"></div>
+                                    {% endif %}
+                                    
                                     <a class="dropdown-item" href="{% url 'account_logout' %}">ログアウト</a>
                                 </div>
                             </li>
