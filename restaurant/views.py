@@ -385,7 +385,21 @@ class ReviewListView(generic.ListView):
         context = super(ReviewListView, self).get_context_data(**kwargs)
         restaurant = models.Restaurant.objects.filter(id=pk).first()
         is_posted = models.Review.objects.filter(user=self.request.user).filter(restaurant=restaurant).exists()
-        average_rate = models.Review.objects.filter(restaurant=restaurant)
+        average_rate = models.Review.objects.filter(restaurant=restaurant).aggregate(Avg('rate'))
+        average_rate = average_rate['rate__avg'] if average_rate['rate__avg'] is not None else 0
+        average_rate = round(average_rate, 2)
+        if average_rate % 1 == 0:
+            average_rate_star = int(average_rate)
+        else:
+            average_rate_star = round(average_rate * 2) / 2
+        context.update({
+            'restaurant': restaurant,
+            'is_posted': is_posted,
+            'average_rate': average_rate,
+            'average_rate_star': average_rate_star,
+        })
+        return context
+
 
 """ レビューの登録画面 ================================== """
 class ReviewCreateView(generic.CreateView):
