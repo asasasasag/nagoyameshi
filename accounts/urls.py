@@ -14,6 +14,7 @@ urlpatterns = [
     path("management/restaurant-update/<int:pk>/",views.ManagementRestaurantUpdateView.as_view(), name="restaurant_update"),
     
     path("management/category-list",views.ManagementCategoryListView.as_view(), name="category_list"),
+    path("management/category-create/",views.ManagementCategoryCreateView.as_view(), name="category_create"),
     path("management/sales/",views.ManagementSalesListView.as_view(), name="sales")
 
 ]

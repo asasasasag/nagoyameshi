@@ -1,0 +1,17 @@
+{% extends "management/manage_base.html" %}
+{% load static %}
+{% block title %}カテゴリー追加{% endblock %}
+{% block sub_content %}
+
+<h1>カテゴリー追加</h1>
+
+  <form method="post" enctype="multipart/form-data" class="category_create">
+    {% csrf_token %}
+    {{ form.as_p}}
+    
+   <br>
+    <a href="{% url 'category_list' %}">戻る</a>
+    <input type="submit" class="btn btn-primary" value="登録">
+  </form>
+  
+{% endblock %}

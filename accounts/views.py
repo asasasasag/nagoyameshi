@@ -82,6 +82,18 @@ class ManagementCategoryListView(onlyManagementUserMixin, generic.ListView):
         context["selected"] = "category"
         
         return context
+    
+class ManagementCategoryCreateView(onlyManagementUserMixin, generic.CreateView):
+    model = Category
+    template_name = 'management/category_create.html'
+    fields = '__all__'
+    success_url = reverse_lazy('category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected"] = "category"
+        
+        return context
 
 # レストラン
 class ManagementRestaurantListView(onlyManagementUserMixin, generic.ListView):
