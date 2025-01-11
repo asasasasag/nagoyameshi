@@ -12,7 +12,7 @@ from restaurant.models import Sales
 
 
 
-# Create your views here.
+# 会員登録
 class UserDetailView(generic.DetailView):
     model = models.CustomUser
     template_name = 'user/user_detail.html'
@@ -32,6 +32,7 @@ class UserUpdateView(generic.UpdateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
     
+#  有料会員
 class SubscribeRegisterView(View):
     template = 'subscribe/subscribe_register.html'
     
@@ -59,7 +60,30 @@ class SubscribeCancelView(generic.TemplateView):
         user_id = request.user.id
 
         models.CustomUser.objects.filter(id=user_id).update(is_subscribed=False)
-        return redirect(reverse_lazy('top_view'))
+        return redirect(reverse_lazy('top_page'))
+    
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
+from . import models
+
+class SubscribePaymentView(View):
+    template = 'subscribe/subscribe_payment.html'
+
+    def get(self, request):
+        user_id = request.user.id
+        user = models.CustomUser.objects.get(id=user_id)
+        context = {'user': user}
+        return render(request, self.template, context)
+
+    def post(self, request):
+        user_id = request.user.id
+        card_name = request.POST.get('card_name')
+        card_number = request.POST.get('card_number')
+        print(card_name, card_number)
+        models.CustomUser.objects.filter(id=user_id).update(card_name=card_name, card_number=card_number)
+        return redirect(reverse_lazy('top_page'))
+
 
 # ユーザー管理
 class ManagementUserListView(onlyManagementUserMixin, generic.ListView):
@@ -71,6 +95,22 @@ class ManagementUserListView(onlyManagementUserMixin, generic.ListView):
         context["selected"] = "user"
         
         return context
+    
+class ManagementUserListUpdateView(onlyManagementUserMixin, generic.UpdateView):
+    template_name = "management/user_list_update.html"
+    model = models.CustomUser
+
+    form_class = forms.UserUpdateForm
+ 
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('user_detail', kwargs={'pk': pk})
+ 
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
     
 #　カテゴリー
 class ManagementCategoryListView(onlyManagementUserMixin, generic.ListView):
@@ -127,6 +167,19 @@ class ManagementRestaurantUpdateView(onlyManagementUserMixin, generic.UpdateView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["del_restaurant_id"] = self.request.path.split('/')[-2]
+        context["selected"] = "restaurant"
+
+        return context
+    
+class ManagementRestaurantDeleteView(onlyManagementUserMixin, generic.DeleteView):
+    model = Restaurant
+    template_name = 'management/restaurant_delete.html'
+    success_url = reverse_lazy('restaurant_manage_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        del_restaurant_id = self.request.path.split('/')[-2]
+        context["del_restaurant"] = Restaurant.objects.get(id=del_restaurant_id)
         context["selected"] = "restaurant"
 
         return context

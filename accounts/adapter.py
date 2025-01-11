@@ -12,8 +12,4 @@ class AccountAdapter(DefaultAccountAdapter):
         user.birthday = form.cleaned_data.get('birthday')
         user.job = form.cleaned_data.get('job')
         user.is_subscribed = form.cleaned_data.get('is_subscribed')
-        
-        if commit:
-            user.save()
-        
-        return user
+        user.save()

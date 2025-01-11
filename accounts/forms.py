@@ -9,8 +9,8 @@ class MySignupForm(SignupForm):
     zip_code = forms.CharField(max_length=255, label='郵便番号')
     address = forms.CharField(max_length=255, label='住所')
     phone_number = forms.CharField(max_length=255, label='電話番号')
-    birthday = forms.CharField(max_length=255, label='誕生日')
-    job = forms.CharField(max_length=255, label='職業')
+    birthday = forms.CharField(max_length=255, label='誕生日', required=False)
+    job = forms.CharField(max_length=255, label='職業', required=False)
     is_subscribed = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
