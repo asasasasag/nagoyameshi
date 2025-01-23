@@ -185,7 +185,7 @@ class RestaurantListView(generic.ListView):
         price_session = self.request.session.get('price_session')
         select_sort_session = self.request.session.get('select_sort')
 
-        # Filtering queryset
+        # フィルター検索
         restaurant_list = models.Restaurant.objects.filter(
             Q(name__icontains=keyword_session) |
             Q(address__icontains=keyword_session) | 

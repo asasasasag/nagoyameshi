@@ -3,25 +3,21 @@
 {% block title %}NAGOYAMESHI{% endblock %}
 {% block sub_content %}
 
-  <a class="new" href="{% url 'category_create' %}">カテゴリー新規登録</a>
-
   <table class="manage_list">
     <thead>
       <th>カテゴリーID</th>
       <th>カテゴリー名</th>
-  
     </thead>
     <tbody>
       {% for category in object_list %}
-      {#  <tr onclick="location.href='{% url 'category_update' pk=category.pk %}'"> #}
-        </tr>
+        <tr onclick="location.href='{% url 'category_update' pk=category.pk %}'">
           <td>{{ category.pk }}</td>
           <td>{{ category.name }}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-
+<a class="new" href="{% url 'category_create' %}">カテゴリー新規登録</a>
 
 {% endblock %}
 

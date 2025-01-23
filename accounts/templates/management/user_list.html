@@ -3,6 +3,13 @@
 {% block title %}NAGOYAMESHI{% endblock %}
 {% block sub_content %}
 
+<form method="GET" class="user-search-box">
+  <div class="input-group">
+      <input type="text" class="form-control" placeholder="メールアドレス" name="email">
+      <button type="submit" class="btn btn-primary text-white shadow-sm">検索</button>
+  </div>
+</form>
+
   <table class="manage_list">
     <thead>
       <th>ユーザーID</th>

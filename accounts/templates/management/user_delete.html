@@ -1,0 +1,21 @@
+{% extends "management/manage_base.html" %}
+{% load static %}
+{% block title %}店舗の削除{% endblock %}
+{% block sub_content %}
+
+<h1>ユーザー情報削除</h1>
+ 
+ <form method="post">
+     {% csrf_token %}
+
+     以下のユーザー情報を削除してもよろしいですか？<br>
+     {{ del_user.name }}<br>
+
+     <a href="{% url 'user_list_update' pk=object.pk %}">戻る</a>
+     <input type="submit" class="btn btn-danger" value="削除">
+ </form>
+
+
+
+{% endblock %}
+

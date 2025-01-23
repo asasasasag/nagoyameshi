@@ -91,6 +91,11 @@
                     <hr class="my-4">
                     <div class="form-group d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary text-white shadow-sm w-50">更新</button>
+                    {% if del_CustomUser_id %}
+                    <button type="button" class="btn btn-danger" onclick="location.href='{% url 'user_delete' pk=del_CustomUser_id %}'">削除</button>
+                    {% else %}
+                    <p>削除可能なユーザーが選択されていません。</p>
+                    {% endif %}
                     </div>
                 </form>
             </div>

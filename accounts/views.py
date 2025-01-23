@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic, View
 
+from django.views.generic import UpdateView
+from django.shortcuts import get_object_or_404
+from .models import CustomUser
+from .forms import UserUpdateForm
+
 from . import forms
 from . import models
 from .mixins import onlyManagementUserMixin
@@ -94,23 +99,50 @@ class ManagementUserListView(onlyManagementUserMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context["selected"] = "user"
         
+        if "email" in self.request.GET:
+            email = self.request.GET.get('email')
+        
+            user_list = models.CustomUser.objects.filter(
+               email__icontains=email
+            ).all()
+        else:
+            user_list = models.CustomUser.objects.all()
+            
+        context["object_list"] = user_list        
+
         return context
     
 class ManagementUserListUpdateView(onlyManagementUserMixin, generic.UpdateView):
-    template_name = "management/user_list_update.html"
-    model = models.CustomUser
+    model = CustomUser
+    form_class = UserUpdateForm
+    template_name = 'management/user_list_update.html'
+    success_url = reverse_lazy('user_list')
 
-    form_class = forms.UserUpdateForm
- 
-    def get_success_url(self):
-        pk = self.kwargs['pk']
-        return reverse_lazy('user_detail', kwargs={'pk': pk})
- 
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # この位置でインスタンスのIDを取得し、コンテキストに渡す
+        context['del_CustomUser_id'] = self.object.pk
+        return context
+
+    def get_object(self, queryset=None):
+        # URLからユーザーIDを取得
+        user_id = self.kwargs.get('pk')
+        # ユーザーを取得、見つからない場合は404エラー
+        return get_object_or_404(CustomUser, pk=user_id)
     
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+class ManagementUserDeleteView(onlyManagementUserMixin, generic.DeleteView):
+    model = models.CustomUser
+    template_name = 'management/user_delete.html'
+    
+    def get_success_url(self):
+        # 削除後のリダイレクト先に対するURLが必要です。
+        return reverse_lazy('user_list') 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["del_user"] = self.get_object()
+        return context
+
     
 #　カテゴリー
 class ManagementCategoryListView(onlyManagementUserMixin, generic.ListView):
@@ -133,6 +165,32 @@ class ManagementCategoryCreateView(onlyManagementUserMixin, generic.CreateView):
         context = super().get_context_data(**kwargs)
         context["selected"] = "category"
         
+        return context
+    
+class ManagementCategoryUpdateView(onlyManagementUserMixin, generic.UpdateView):
+    model = Category
+    template_name = 'management/category_update.html'
+    form_class = forms.RestaurantUpdateForm
+    success_url = reverse_lazy('category_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["del_category_id"] = self.request.path.split('/')[-2]
+        context["selected"] = "category"
+
+        return context
+
+class ManagementCategoryDeleteView(onlyManagementUserMixin, generic.DeleteView):
+    model = Category
+    template_name = 'management/category_delete.html'
+    success_url = reverse_lazy('category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        del_category_id = self.request.path.split('/')[-2]
+        context["del_category"] = Category.objects.get(id=del_category_id)
+        context["selected"] = "category"
+
         return context
 
 # レストラン
